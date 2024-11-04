@@ -59,6 +59,12 @@ namespace Football_LR_1
                 {
                     Console.WriteLine($"{topfootballer.Name}: {topfootballer.Goals} голов");
                 }
+
+
+
+                var maxPoints = teams.Max(t => t.Points);
+                var pointDiffer= maxPoints - team.Points;
+                Console.WriteLine($"Команда {team.Name} отстаёт от первого места на {pointDiffer} баллов.");
             }
         }
     }
