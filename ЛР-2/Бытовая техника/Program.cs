@@ -10,6 +10,8 @@ namespace Бытовая_техника
     {
         static void Main(string[] args)
         {
+            SaleHistory history = new SaleHistory();
+
         }
     }
 }

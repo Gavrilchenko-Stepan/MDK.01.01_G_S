@@ -12,19 +12,15 @@ namespace Бытовая_техника
         private Appliances appliances_;
         private double count_;
         private DateTime date_;
+        private int quantity_;
 
-        public Sale(int check)
-        {
-            check_ = check;
-        }
-
-        public Sale SetSale(Appliances appliances, double count)
+        public  Sale(int check, Appliances appliances, double count, int quantity)
         {
             date_ = DateTime.Now;
             appliances_ = appliances;
             count_ = count;
-
-            return this;
+            check_ = check;
+            quantity_ = quantity;
         }
     }
 }
