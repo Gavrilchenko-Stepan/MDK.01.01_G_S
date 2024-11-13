@@ -6,5 +6,9 @@ using System.Threading.Tasks;
 
 namespace Бытовая_техника
 {
+    class SaleHistory
+    {
+
+    }
 }
 
