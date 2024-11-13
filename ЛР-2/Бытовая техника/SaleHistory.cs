@@ -6,11 +6,5 @@ using System.Threading.Tasks;
 
 namespace Бытовая_техника
 {
-    public enum betovay_tecnica
-    {
-        fridges =1,
-        microwaves,
-        vacuumcleaners,
-        washingmacchnes
-    }
 }
+

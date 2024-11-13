@@ -43,11 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BetovayTehnica.cs" />
-    <Compile Include="bettec.cs" />
-    <Compile Include="IstoriaProdaj.cs" />
+    <Compile Include="Appliances.cs" />
+    <Compile Include="Type_of_appliances.cs" />
+    <Compile Include="SaleHistory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sale.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
