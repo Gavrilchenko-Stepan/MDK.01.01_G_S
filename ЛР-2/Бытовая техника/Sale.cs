@@ -8,19 +8,21 @@ namespace Бытовая_техника
 {
     internal class Sale
     {
-        private int check_;
+        private int Day_;
         private Appliances appliances_;
-        private double count_;
-        private DateTime date_;
-        private int quantity_;
 
-        public  Sale(int check, Appliances appliances, double count, int quantity)
+        public  Sale(int Day, Appliances appliances)
         {
-            date_ = DateTime.Now;
+            Day_ = Day;
             appliances_ = appliances;
-            count_ = count;
-            check_ = check;
-            quantity_ = quantity;
+        }
+        public Appliances GetAppliances() 
+        {
+            return appliances_;
+        }
+        public int GetDay() 
+        { 
+            return Day_; 
         }
     }
 }
