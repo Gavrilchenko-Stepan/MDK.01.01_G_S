@@ -11,23 +11,33 @@ namespace Бытовая_техника
        
         private double price_;
         private string name_;
+        private int quantity_;
+        private Type_of_appliances type_;
 
-        public void SetNames(string n)
+        public double GetPrice()
         {
-            name_ = n;
+            return price_;
         }
         public string GetName()
         {
             return name_;
         }
-        public void SetPrice(double p)
+        public int GetQuantity()
         {
-            price_ = p;
+            return quantity_;
         }
-        public Appliances(double Price, string Name)
+
+        public Type_of_appliances GetType()
+        {
+            return type_;
+        }
+
+        public Appliances(double Price, string Name, int quantity_, Type_of_appliances type_)
         {
             price_ = Price;
             name_ = Name;
+            this.quantity_ = quantity_;
+            this.type_ = type_;
         }
     }
 }
