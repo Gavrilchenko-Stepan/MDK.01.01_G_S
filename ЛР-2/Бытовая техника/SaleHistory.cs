@@ -19,27 +19,20 @@ namespace Бытовая_техника
             Sales.Add(Sale);
         }
 
-        public void Sale_History()
+        public void PrintSale_History()
         {
             double TotalAmount = 0;
             foreach (var Sale in Sales)
             {
                 var appliance = Sale.GetAppliances();
 
-                Console.WriteLine($"День {Sale.GetDay()}," +
-                    $" Наименование бытовой техники {appliance.GetName()}, " +
-                    $"Тип бытовой техники {appliance.GetType()}, " +
-                    $"Цена {appliance.GetPrice()}," +
-                    $"Количество {appliance.GetQuantity()}," +
-                    $"Прибыль {appliance.GetPrice() * appliance.GetQuantity()}");
-            }
-            if (TotalAmount != 0) 
-            {
-                Console.WriteLine($"Вся прибыль {TotalAmount}");
-            }
-            if (TotalAmount == 0)
-            {
-                Console.WriteLine("Не совершалось продаж в данный день");
+                Console.WriteLine($"День: {Sale.GetDay()}," +
+                    $" Наименование: {appliance.GetName()}, " +
+                    $"Тип: {appliance.GetTypeAppliances()}, " +
+                    $"Цена: {appliance.GetPrice()}, " +
+                    $"Количество: {appliance.GetQuantity()}, " +
+                    $"Прибыль: {appliance.GetPrice() * appliance.GetQuantity()} ");
+                TotalAmount += appliance.GetQuantity() * appliance.GetPrice();
             }
             Console.WriteLine($"Вся прибыль {TotalAmount}");
         }

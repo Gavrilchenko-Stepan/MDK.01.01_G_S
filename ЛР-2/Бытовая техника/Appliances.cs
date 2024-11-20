@@ -27,12 +27,12 @@ namespace Бытовая_техника
             return quantity_;
         }
 
-        public Type_of_appliances GetType()
+        public Type_of_appliances GetTypeAppliances()
         {
             return type_;
         }
 
-        public Appliances(double Price, string Name, int quantity_, Type_of_appliances type_)
+        public Appliances(string Name, double Price, int quantity_, Type_of_appliances type_)
         {
             price_ = Price;
             name_ = Name;
