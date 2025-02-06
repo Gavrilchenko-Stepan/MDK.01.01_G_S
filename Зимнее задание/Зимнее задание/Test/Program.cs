@@ -78,7 +78,7 @@ namespace Test
                     questionManager.AddQuestion(questionText, section);
                 }
             }
-            questionManager.LoadQuestionsFromFile(); // перечитать вопросы из файла
+            LoadQuestionsFromFile(); // перечитать вопросы из файла
         }
 
         private static void SaveTicketsToFile(List<Ticket> tickets)

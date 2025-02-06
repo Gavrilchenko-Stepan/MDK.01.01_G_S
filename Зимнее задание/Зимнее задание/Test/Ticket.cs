@@ -10,7 +10,7 @@ namespace Test
     {
         public List<Question> Questions { get; set; } = new List<Question>();
 
-        public override string ToString()
+        public new string ToString()
         {
             string output = "-------------------\n";
 
