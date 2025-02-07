@@ -15,12 +15,10 @@ namespace Test
         public List<Question> Questions { get; set; } = new List<Question>();
         public string _filename;
 
-        LoadQuestionFromF loadquestinofromfile = new LoadQuestionFromF();
-
         public QuestionManager(string filename)
         {
             _filename = filename;
-            loadquestinofromfile.LoadQuestionsFromFile();
+            LoadQuestionsFromFile();
         }
 
 

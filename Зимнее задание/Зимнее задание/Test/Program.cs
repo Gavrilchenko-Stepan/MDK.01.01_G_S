@@ -9,6 +9,7 @@ namespace Test
 {
     internal class Program
     {
+        LoadQuestionFromF loadquestinofromfile = new LoadQuestionFromF();
         static void Main(string[] args)
         {
             Console.WriteLine("Введите путь к файлу с вопросами (например, questions.txt):");
@@ -77,8 +78,7 @@ namespace Test
                     var questionText = Console.ReadLine();
                     questionManager.AddQuestion(questionText, section);
                 }
-            }
-            LoadQuestionsFromFile(); // перечитать вопросы из файла
+            } //проверить успешность выполнения AddQuestions
         }
 
         private static void SaveTicketsToFile(List<Ticket> tickets)

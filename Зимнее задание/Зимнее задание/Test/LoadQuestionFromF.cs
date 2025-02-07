@@ -5,14 +5,15 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using static Test.QuestionManager;
+using System.Runtime.CompilerServices;
 
 namespace Test
 {
-    internal class LoadQuestionFromF
+    public class LoadQuestionFromF
     {
-        public void LoadQuestionsFromFile()
+        static public void LoadQuestionsFromFile()
         {
-            QuestionManager questionmanager = new QuestionManager();
+            QuestionManager questionmanager = new QuestionManager(); //прописать аргументы и тип возвращ значения
             questionmanager.Questions.Clear(); // Очистка списока перед загрузкой
 
 
