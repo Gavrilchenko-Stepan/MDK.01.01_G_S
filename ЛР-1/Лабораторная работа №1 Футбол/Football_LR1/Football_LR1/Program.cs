@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,7 @@ namespace Football_LR1
         new Team("Кубань", 12, new List<Player> { new Player("Игрок16", 3), new Player("Игрок17", 5), new Player("Игрок18", 3) })
             };
 
+            
             Console.WriteLine("Введите название команды:");
             string teamName = Console.ReadLine();
 
