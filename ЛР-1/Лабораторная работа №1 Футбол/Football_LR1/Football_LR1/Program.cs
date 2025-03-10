@@ -106,6 +106,25 @@ namespace Football_LR1
                 {
                     Console.WriteLine($"{scorer.Name} - {scorer.Goals} забитых мячей");
                 }
+
+                // Находим максимальные баллы
+                int maxPoints = 0;
+                foreach (var team in teams)
+                {
+                    if (team.Points > maxPoints)
+                    {
+                        maxPoints = team.Points;
+                    }
+                }
+
+                // Разница в баллах
+                int pointDifference = maxPoints - selectedTeam.Points;
+                Console.WriteLine($"Команда {selectedTeam.Name} отстает от первого места на {pointDifference} баллов.");
             }
+            else
+            {
+                Console.WriteLine("Команда не найдена.");
+            }
+        }
     }
 }
