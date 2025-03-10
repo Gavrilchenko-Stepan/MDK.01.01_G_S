@@ -17,6 +17,20 @@ namespace Football_LR1
             Goals = goals;
         }
     }
+
+    public class Team
+    {
+        public string Name { get; set; }
+        public int Points { get; set; }
+        public List<Player> Players { get; set; }
+
+        public Team(string name, int points, List<Player> players)
+        {
+            Name = name;
+            Points = points;
+            Players = players;
+        }
+    }
     class Program
     {
 
