@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,20 @@ namespace Бытовая_техника
         public void Addsale(Sale Sale)
         {
             Sales.Add(Sale);
+        }
+
+        public double CalculateTotalSales(Type_of_appliances type)
+        {
+            double total = 0;
+            foreach (var sale in Sales)
+            {
+                var appliance = sale.GetAppliances();
+                if (appliance.GetTypeAppliances() == type)
+                {
+                    total += appliance.GetPrice() * appliance.GetQuantity();
+                }
+            }
+            return total;
         }
 
         public void PrintSale_History()

@@ -23,6 +23,28 @@ namespace Бытовая_техника
 
             history.PrintSale_History();
 
+            // Запрос на ввод типа бытовой техники от пользователя
+            Console.WriteLine("Выберите тип бытовой техники для расчета общей стоимости:");
+            Console.WriteLine("0 - Холодильники");
+            Console.WriteLine("1 - Микроволновки");
+            Console.WriteLine("2 - Пылесосы");
+            Console.WriteLine("3 - Стиральные машины");
+
+            // Чтение выбора пользователя
+            if (int.TryParse(Console.ReadLine(), out int Choice) && Enum.IsDefined(typeof(Type_of_appliances), Choice))
+            {
+                Type_of_appliances selectedType = (Type_of_appliances)Choice;
+
+                // Расчёт стоимости по выбранному типу
+                double totalSales = history.CalculateTotalSales(selectedType);
+
+                Console.WriteLine($"Общая стоимость проданных товаров типа {selectedType}: {totalSales} руб.");
+            }
+            else
+            {
+                Console.WriteLine("Неверный выбор. Пожалуйста, выберите номер от 0 до 3.");
+            }
+
             Console.ReadKey();
         }
         
