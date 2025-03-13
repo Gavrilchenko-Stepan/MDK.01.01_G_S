@@ -13,10 +13,13 @@ namespace MyLibrary.Models
 
         public List<College> Children { get; } // список дочерних узлов
 
+        public List<Employee> Employees { get; }
+
         public College(string name)
         {
             Name = name;
             Children = new List<College>();
+            Employees = new List<Employee>(); // Инициализируем пустой список
         }
 
         public College AddChildNode(string text)
