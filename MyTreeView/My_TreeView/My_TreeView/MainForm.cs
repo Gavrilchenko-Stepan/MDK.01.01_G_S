@@ -13,7 +13,6 @@ namespace My_TreeView
     {
         private List<College> treeData_;
         private EmployeeModel employeeModel;
-        Employee employee1 = new Employee();
         public MainForm()
         {
             InitializeComponent();
