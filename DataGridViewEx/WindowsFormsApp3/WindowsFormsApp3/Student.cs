@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp3
 {
-    class Student
+   public class Student
     {
         public string name { get; set; }
-        public string Surname { get; set; }
+        public string surname { get; set; }
         public int age { get; set; }
     }
 }
