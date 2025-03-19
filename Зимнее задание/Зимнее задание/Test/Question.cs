@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    internal class Question
+    public class Question
     {
         public string Text { get; set; }
         public string Section { get; set; } // "знать", "уметь", "владеть"

@@ -8,7 +8,7 @@ using static Test.LoadQuestionFromF;
 
 namespace Test
 {
-    internal class QuestionManager
+    public class QuestionManager
     {
         private List<Question> usedQuestions = new List<Question>();
 
@@ -18,7 +18,7 @@ namespace Test
         public QuestionManager(string filename)
         {
             _filename = filename;
-            LoadQuestionsFromFile();
+            LoadQuestionsFromFile(this);
         }
 
 

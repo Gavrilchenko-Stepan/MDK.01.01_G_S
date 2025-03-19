@@ -11,9 +11,8 @@ namespace Test
 {
     public class LoadQuestionFromF
     {
-        static public void LoadQuestionsFromFile()
+        static public void LoadQuestionsFromFile(QuestionManager questionmanager)
         {
-            QuestionManager questionmanager = new QuestionManager(); //прописать аргументы и тип возвращ значения
             questionmanager.Questions.Clear(); // Очистка списока перед загрузкой
 
 
