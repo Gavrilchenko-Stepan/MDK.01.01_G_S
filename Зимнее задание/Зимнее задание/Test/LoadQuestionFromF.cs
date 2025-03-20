@@ -34,7 +34,7 @@ namespace Test
                 }
             }
 
-            Console.WriteLine($"Загружено {questionmanager.Questions.Count} вопросов.");
+            Console.WriteLine($"Загружено {questionmanager.Questions.Count} из {lines.Length} вопросa(-ов).");
         }
     }
 }
