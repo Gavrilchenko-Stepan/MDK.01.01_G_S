@@ -18,7 +18,6 @@ namespace Test
         public QuestionManager(string filename)
         {
             _filename = filename;
-            LoadQuestionsFromFile(this);
         }
 
 
