@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyVKWinFormsTest", "MyVKWinFormsTest\MyVKWinFormsTest.csproj", "{FAADBBFE-05B5-4939-874D-B6C654461A2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAADBBFE-05B5-4939-874D-B6C654461A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAADBBFE-05B5-4939-874D-B6C654461A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAADBBFE-05B5-4939-874D-B6C654461A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAADBBFE-05B5-4939-874D-B6C654461A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38F7389E-392F-482B-9030-24EB77E5B2E3}
+	EndGlobalSection
+EndGlobal
