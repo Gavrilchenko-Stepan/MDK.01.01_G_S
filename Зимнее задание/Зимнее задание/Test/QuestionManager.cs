@@ -10,8 +10,6 @@ namespace Test
 {
     public class QuestionManager
     {
-        private List<Question> usedQuestions = new List<Question>();
-
         public List<Question> Questions { get; set; } = new List<Question>();
         public string _filename;
 

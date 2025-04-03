@@ -16,7 +16,7 @@ namespace Test
             string fileName = Console.ReadLine();
 
             var questionManager = new QuestionManager(fileName);
-            LoadQuestionFromF.LoadQuestionsFromFile(questionManager);
+            LoadQuestionFromF.TheQuestionLoader(questionManager);
 
             while (true)
             {
