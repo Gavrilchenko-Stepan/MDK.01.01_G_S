@@ -16,7 +16,18 @@ namespace Test
             string fileName = Console.ReadLine();
 
             var questionManager = new QuestionManager(fileName);
-            LoadQuestionFromF.TheQuestionLoader(questionManager);
+            LoadQuestionFromF.TheQuestionLoader(questionManager, out int loadedCount,
+            out int totalLines, out List<string> errors);
+
+            Console.WriteLine($"\nЗагружено {loadedCount} из {totalLines} вопросов.");
+            if (errors.Count > 0)
+            {
+                Console.WriteLine($"Найдено ошибок: {errors.Count}");
+                foreach (var error in errors)
+                {
+                    Console.WriteLine($"- {error}");
+                }
+            }
 
             while (true)
             {

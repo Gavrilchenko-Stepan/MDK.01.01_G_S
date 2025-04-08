@@ -6,18 +6,24 @@ using System.Text;
 using System.Threading.Tasks;
 using static Test.QuestionManager;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.NetworkInformation;
 
 namespace Test
 {
     public class LoadQuestionFromF
     {
-        static public void TheQuestionLoader(QuestionManager questionmanager)
+        static public void TheQuestionLoader(QuestionManager questionmanager, out int loadedCount, 
+            out int totalLines, out List<string> errors)
         {
             questionmanager.Questions.Clear(); // Очистка списка перед загрузкой
+            loadedCount = 0;
+            totalLines = 0;
+            errors = new List<string>();
 
             if (!File.Exists(questionmanager._filename))
             {
-                Console.WriteLine($"Ошибка: файл {questionmanager._filename} не найден.");
+                errors.Add($"Ошибка: файл {questionmanager._filename} не найден.");
                 return;
             }
 
@@ -25,22 +31,19 @@ namespace Test
             try
             {
                 lines = File.ReadAllLines(questionmanager._filename);
+                totalLines = lines.Length;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при чтении файла: {ex.Message}");
+                errors.Add($"Ошибка при чтении файла: {ex.Message}");
                 return;
             }
-
-            int errorCount = 0;
-            List<string> errorLines = new List<string>();
 
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line))
                 {
-                    errorCount++;
-                    errorLines.Add($"Пустая строка");
+                    errors.Add($"Пустая строка");
                     continue;
                 }
 
@@ -53,29 +56,16 @@ namespace Test
                     if (string.IsNullOrEmpty(section)
                         || string.IsNullOrEmpty(text))
                     {
-                        errorCount++;
-                        errorLines.Add($"Пустое значение в строке: {line}");
+                        errors.Add($"Пустое значение в строке: {line}");
                         continue;
                     }
 
                     questionmanager.Questions.Add(new Question(text, section));
+                    loadedCount++;
                 }
                 else
                 {
-                    errorCount++;
-                    errorLines.Add($"Ошибка формата (должно быть 2 части разделенные '|'): {line}");
-                }
-            }
-
-            Console.WriteLine($"Загружено {questionmanager.Questions.Count} из {lines.Length} вопросов.");
-
-            // Вывод информации об ошибках, если они есть
-            if (errorCount > 0)
-            {
-                Console.WriteLine($"\nНайдено {errorCount} ошибок в файле:");
-                foreach (var error in errorLines)
-                {
-                    Console.WriteLine($"- {error}");
+                    errors.Add($"Ошибка формата (должно быть 2 части разделенные '|'): {line}");
                 }
             }
         }
