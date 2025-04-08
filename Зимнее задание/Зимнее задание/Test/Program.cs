@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Test
 {
@@ -89,8 +90,9 @@ namespace Test
                     Console.WriteLine($"Недостаточно вопросов в разделе '{section}'. Введите новый вопрос:");
                     var questionText = Console.ReadLine();
                     questionManager.AddQuestion(questionText, section);
+                    Console.WriteLine($"Вопрос '{questionText}' добавлен в раздел '{section}'.");
                 }
-            } //проверить успешность выполнения AddQuestions
+            }
         }
 
         private static void SaveTicketsToFile(List<Ticket> tickets)

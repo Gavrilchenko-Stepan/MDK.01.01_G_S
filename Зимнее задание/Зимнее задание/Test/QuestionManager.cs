@@ -23,7 +23,6 @@ namespace Test
         {
             Questions.Add(new Question(text, section));
             File.AppendAllLines(_filename, new List<string> { $"{section} | {text}" });
-            Console.WriteLine($"Вопрос '{text}' добавлен в раздел '{section}'.");
         }
 
 
