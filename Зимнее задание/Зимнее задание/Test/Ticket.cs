@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test
 {
-    internal class Ticket
+    public class Ticket
     {
         public List<Question> Questions { get; set; } = new List<Question>();
 

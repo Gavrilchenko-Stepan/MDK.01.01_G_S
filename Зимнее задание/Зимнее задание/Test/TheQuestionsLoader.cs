@@ -11,9 +11,9 @@ using System.Net.NetworkInformation;
 
 namespace Test
 {
-    public class LoadQuestionFromF
+    public class TheQuestionsLoader
     {
-        static public void TheQuestionLoader(QuestionManager questionmanager, out int loadedCount, 
+        static public void LoadQuestions(QuestionManager questionmanager, out int loadedCount, 
             out int totalLines, out List<string> errors)
         {
             questionmanager.Questions.Clear(); // Очистка списка перед загрузкой

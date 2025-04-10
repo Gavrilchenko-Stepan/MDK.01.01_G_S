@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Test.LoadQuestionFromF;
+using static Test.TheQuestionsLoader;
 
 namespace Test
 {
