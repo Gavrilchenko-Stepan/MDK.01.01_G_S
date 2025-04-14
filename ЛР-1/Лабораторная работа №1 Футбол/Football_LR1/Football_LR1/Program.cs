@@ -87,43 +87,26 @@ namespace Football_LR1
 
         private static List<Player> GetTopScorers(List<Player> players)
         {
-            var topScorers = new List<Player>();
+            // Создаем копию списка, чтобы не менять оригинальный
+            List<Player> sortedPlayers = new List<Player>(players);
 
-            foreach (var player in players)
+            // Сортируем по убыванию количества голов
+            for (int i = 0; i < sortedPlayers.Count - 1; i++)
             {
-                if (topScorers.Count < 3)
+                for (int j = i + 1; j < sortedPlayers.Count; j++)
                 {
-                    topScorers.Add(player);
-                }
-                else
-                {
-                    for (int i = 0; i < topScorers.Count; i++)
+                    if (sortedPlayers[j].Goals > sortedPlayers[i].Goals)
                     {
-                        if (player.Goals > topScorers[i].Goals)
-                        {
-                            topScorers[i] = player;
-                            break;
-                        }
+                        Player temp = sortedPlayers[i];
+                        sortedPlayers[i] = sortedPlayers[j];
+                        sortedPlayers[j] = temp;
                     }
-                }
-
-                if (topScorers.Count > 3)
-                {
-                    Player minPlayer = topScorers[0];
-                    int minIndex = 0;
-
-                    for (int i = 1; i < topScorers.Count; i++)
-                    {
-                        if (topScorers[i].Goals < minPlayer.Goals)
-                        {
-                            minPlayer = topScorers[i];
-                            minIndex = i;
-                        }
-                    }
-                    topScorers.RemoveAt(minIndex);
                 }
             }
-            return topScorers;
+
+            // Возвращаем первые 3 элемента или меньше, если игроков меньше 3
+            int count = Math.Min(3, sortedPlayers.Count);
+            return sortedPlayers.GetRange(0, count);
         }
 
         private static void PrintTopScorers(List<Player> topScorers)
