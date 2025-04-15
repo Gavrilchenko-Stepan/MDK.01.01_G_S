@@ -50,9 +50,8 @@ namespace Football_LR1
                 List<Player> topScorers = GetTopScorers(selectedTeam.Players); ///определяем топ 3 бомбардира
                 Console.WriteLine($"Топ 3 бомбардира команды {selectedTeam.Name}:");
                 PrintTopScorers(topScorers);
-                int maxPoints = GetMaxPoints(teams);  /// находим максимальную суммы очков среди всех команд
-                int pointDifference = maxPoints - selectedTeam.Points;  /// вычисляем разницу в очках между командой и лидером
-                Console.WriteLine($"Команда {selectedTeam.Name} отстает от первого места на {pointDifference} баллов.");
+                CalcPointsDifference(teams, selectedTeam);
+                PrintPointsDifference(teams, selectedTeam);
             }
             else
             {
@@ -128,6 +127,20 @@ namespace Football_LR1
                 }
             }
             return maxPoints;
+        }
+
+        private static int CalcPointsDifference(List<Team> teams, Team selectedTeam)
+        {
+           
+            int maxPoints = GetMaxPoints(teams); // Находим максимальную сумму очков
+            int pointDifference = maxPoints - selectedTeam.Points; // Вычисляем разницу
+            return pointDifference; // Возвращаем разницу вместо вывода
+        }
+
+        private static void PrintPointsDifference(List<Team> teams, Team selectedTeam)
+        {
+            int difference = CalcPointsDifference(teams, selectedTeam);
+            Console.WriteLine($"Команда {selectedTeam.Name} отстаёт на {difference} баллов.");
         }
     }
 }
