@@ -44,11 +44,15 @@ namespace Test
         private static void ProcessDocument(WordprocessingDocument doc, List<Ticket> tickets)
         {
             var body = doc.MainDocumentPart.Document.Body;
+
+            // Получаем все элементы шаблона
             var templateElements = body.Elements().ToList();
 
-            // Определяем разделитель (последний элемент)
-            var ticketTemplate = templateElements.Take(templateElements.Count - 1).ToList();
+            // Полностью очищаем документ
             body.RemoveAllChildren();
+
+            // Копируем ВСЕ элементы шаблона (без исключения последнего элемента)
+            var ticketTemplate = templateElements.ToList();
 
             for (int i = 0; i < tickets.Count; i++)
             {
