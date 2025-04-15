@@ -26,7 +26,6 @@ namespace Test
                 errors.Add($"Ошибка: файл {questionmanager._filename} не найден.");
                 return;
             }
-
             string[] lines;
             try
             {
@@ -46,7 +45,6 @@ namespace Test
                     errors.Add($"Пустая строка");
                     continue;
                 }
-
                 var parts = line.Split('|');
                 if (parts.Length == 2)
                 {
@@ -59,7 +57,6 @@ namespace Test
                         errors.Add($"Пустое значение в строке: {line}");
                         continue;
                     }
-
                     questionmanager.Questions.Add(new Question(text, section));
                     loadedCount++;
                 }
