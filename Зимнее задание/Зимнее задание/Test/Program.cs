@@ -64,50 +64,43 @@ namespace Test
                     continue;
                 }
 
-                var errors = new List<string>();
-                bool fileIsValid = TheQuestionsLoader.CheckFileForErrors(fileName, out errors);
-
-                if (!fileIsValid)
-                {
-                    Console.WriteLine("\nОбнаружены ошибки в файле:");
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine($"- {error}");
-                    }
-
-                    Console.WriteLine("\nПожалуйста, исправьте ошибки в файле.");
-                    Console.WriteLine("Формат каждой строки должен быть: раздел | текст вопроса");
-                    Console.WriteLine("Допустимые разделы: знать, уметь, владеть");
-                    Console.Write("Нажмите Enter чтобы попробовать снова (или 'q' для выхода)... ");
-
-                    if (Console.ReadLine().ToLower() == "q")
-                        Environment.Exit(0);
-
-                    continue;
-                }
-
                 questionManager = new QuestionManager(fileName);
-                int loadedCount = 0;
-                int totalLines = 0;
-                TheQuestionsLoader.LoadQuestions(questionManager, out loadedCount, out totalLines, out errors);
+                var loadResult = TheQuestionsLoader.LoadQuestions(questionManager);
 
-                Console.WriteLine($"\nУспешно загружено {loadedCount} вопросов.");
-                if (errors.Count > 0)
+                Console.WriteLine($"\nУспешно загружено {loadResult.LoadedCount} вопросов из {loadResult.TotalLines} строк.");
+
+                if (loadResult.HasErrors)
                 {
-                    Console.WriteLine($"Предупреждений: {errors.Count}");
-                    foreach (var error in errors.Take(3))
+                    Console.WriteLine($"\nОбнаружены ошибки ({loadResult.Errors.Count}):");
+                    foreach (var error in loadResult.Errors.Take(5))
                     {
                         Console.WriteLine($"- {error}");
                     }
-                    if (errors.Count > 3)
-                        Console.WriteLine($"... и еще {errors.Count - 3} предупреждений");
+                    if (loadResult.Errors.Count > 5)
+                    {
+                        Console.WriteLine($"... и еще {loadResult.Errors.Count - 5} ошибок");
+                    }
                 }
 
                 Console.WriteLine("\nПроверьте загруженные вопросы:");
+                bool anyQuestionsLoaded = false;
                 foreach (var section in Question.ALL_SECTIONS)
                 {
                     int count = questionManager.Questions.Count(q => q.Section == section);
                     Console.WriteLine($"- {section}: {count} вопросов");
+                    if (count > 0) anyQuestionsLoaded = true;
+                }
+
+                if (!anyQuestionsLoaded)
+                {
+                    Console.WriteLine("\nВнимание: не загружено ни одного вопроса!");
+                    Console.WriteLine("Возможные причины:");
+                    Console.WriteLine("1. Файл пустой");
+                    Console.WriteLine("2. Все строки содержат ошибки");
+                    Console.WriteLine("3. Неверный формат файла (должен быть: 'раздел | текст вопроса')");
+                    Console.Write("Попробовать другой файл? (y/n): ");
+                    if (Console.ReadLine().ToLower() == "y") continue;
+                    else Environment.Exit(0);
                 }
 
                 Console.Write("\nВсе верно? (y/n): ");
@@ -250,7 +243,7 @@ namespace Test
             Console.Write("\nВведите раздел (знать/уметь/владеть): ");
             string section = Console.ReadLine().ToLower();
 
-            if (!Question.ALL_SECTIONS.Contains(section))
+            if (!new[] { "знать", "уметь", "владеть" }.Contains(section))
             {
                 Console.WriteLine("Неверный раздел!");
                 return;
@@ -274,17 +267,17 @@ namespace Test
                 return;
             }
 
-            var errors = new List<string>();
-            if (TheQuestionsLoader.CheckFileForErrors(path, out errors))
-            {
-                int loaded = 0;
-                TheQuestionsLoader.LoadQuestions(questionManager, out loaded, out _, out _);
-                Console.WriteLine($"Добавлено {loaded} вопросов.");
-            }
-            else
+            var tempManager = new QuestionManager(path);
+            var loadResult = TheQuestionsLoader.LoadQuestions(tempManager);
+
+            if (loadResult.HasErrors)
             {
                 Console.WriteLine("Ошибки в файле:");
-                errors.ForEach(e => Console.WriteLine($"- {e}"));
+                foreach (var error in loadResult.Errors)
+                {
+                    Console.WriteLine($"- {error}");
+                }
+                return;
             }
         }
     }

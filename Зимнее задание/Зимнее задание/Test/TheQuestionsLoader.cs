@@ -13,108 +13,82 @@ namespace Test
 {
     public class TheQuestionsLoader
     {
-        static public void LoadQuestions(QuestionManager questionmanager, out int loadedCount, 
-            out int totalLines, out List<string> errors)
+        public struct LoadResult
         {
+            public int LoadedCount { get; set; }
+            public int TotalLines { get; set; }
+            public List<string> Errors { get; set; }
+            public bool HasErrors => Errors.Count > 0;
+        }
+        static public LoadResult LoadQuestions(QuestionManager questionmanager)
+        {
+            var result = new LoadResult
+            {
+                LoadedCount = 0,
+                TotalLines = 0,
+                Errors = new List<string>()
+            };
             questionmanager.Questions.Clear(); // Очистка списка перед загрузкой
-            loadedCount = 0;
-            totalLines = 0;
-            errors = new List<string>();
+            
 
             if (!File.Exists(questionmanager._filename))
             {
-                errors.Add($"Ошибка: файл {questionmanager._filename} не найден.");
-                return;
+                result.Errors.Add($"Ошибка: файл {questionmanager._filename} не найден.");
+                return result;
             }
             string[] lines;
             try
             {
                 lines = File.ReadAllLines(questionmanager._filename);
-                totalLines = lines.Length;
+                result.TotalLines = lines.Length;
             }
             catch (Exception ex)
             {
-                errors.Add($"Ошибка при чтении файла: {ex.Message}");
-                return;
+                result.Errors.Add($"Ошибка при чтении файла: {ex.Message}");
+                return result;
             }
 
-            foreach (var line in lines)
+            for (int i = 0; i < lines.Length; i++)
             {
+                string line = lines[i];
                 if (string.IsNullOrWhiteSpace(line))
                 {
-                    errors.Add($"Пустая строка");
+                    result.Errors.Add($"Строка {i + 1}: Пустая строка");
                     continue;
                 }
+
                 var parts = line.Split('|');
-                if (parts.Length == 2)
+                if (parts.Length != 2)
                 {
-                    var section = parts[0].Trim();
-                    var text = parts[1].Trim();
-
-                    if (string.IsNullOrEmpty(section)
-                        || string.IsNullOrEmpty(text))
-                    {
-                        errors.Add($"Пустое значение в строке: {line}");
-                        continue;
-                    }
-                    questionmanager.Questions.Add(new Question(text, section));
-                    loadedCount++;
+                    result.Errors.Add($"Строка {i + 1}: Ошибка формата (должно быть 2 части разделенные '|')");
+                    continue;
                 }
-                else
+
+                var section = parts[0].Trim();
+                var text = parts[1].Trim();
+
+                if (string.IsNullOrEmpty(section))
                 {
-                    errors.Add($"Ошибка формата (должно быть 2 части разделенные '|'): {line}");
+                    result.Errors.Add($"Строка {i + 1}: Пустое значение секции");
+                    continue;
                 }
-            }
-        }
 
-        static public bool CheckFileForErrors(string filePath, out List<string> errors)
-        {
-            errors = new List<string>();
+                if (string.IsNullOrEmpty(text))
+                {
+                    result.Errors.Add($"Строка {i + 1}: Пустое значение текста вопроса");
+                    continue;
+                }
 
+                if (!Question.ALL_SECTIONS.Contains(section))
+                {
+                    result.Errors.Add($"Строка {i + 1}: Неизвестная секция '{section}'. Допустимые значения: {string.Join(", ", Question.ALL_SECTIONS)}");
+                    continue;
+                }
 
-            if (!File.Exists(filePath))
-            {
-                errors.Add($"Файл {filePath} не найден.");
-                return false;
+                questionmanager.Questions.Add(new Question(text, section));
+                result.LoadedCount++;
             }
-
-            string[] lines;
-            try
-            {
-                lines = File.ReadAllLines(filePath);
-            }
-            catch (Exception ex)
-            {
-                errors.Add($"Ошибка при чтении файла: {ex.Message}");
-                return false;
-            }
-            
-            bool hasErrors = false;
-        for (int i = 0; i < lines.Length; i++)
-        {
-            string line = lines[i];
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                errors.Add($"Строка {i + 1}: Пустая строка");
-                hasErrors = true;
-                continue;
-            }
-
-            var parts = line.Split('|');
-            if (parts.Length != 2)
-            {
-                errors.Add($"Строка {i + 1}: Ошибка формата (должно быть 2 части разделенные '|')");
-                hasErrors = true;
-            }
-            else if (string.IsNullOrEmpty(parts[0].Trim()) 
-                  || string.IsNullOrEmpty(parts[1].Trim()))
-            {
-                errors.Add($"Строка {i + 1}: Пустое значение секции или текста вопроса");
-                hasErrors = true;
-            }
-        }
-
-        return !hasErrors;
+            return result;
         }
     }
 }
