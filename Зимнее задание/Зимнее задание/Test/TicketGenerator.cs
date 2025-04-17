@@ -19,7 +19,7 @@ namespace Test
             for (int i = 0; i < numTickets; i++)
             {
                 var ticket = new Ticket();
-                var sections = new List<string> { "знать", "уметь", "владеть" };
+                var sections = new List<string>(Question.ALL_SECTIONS);
                 foreach (var section in sections)
                 {
                     var question = questionManager.GetRandomQuestion(section, usedQuestions);

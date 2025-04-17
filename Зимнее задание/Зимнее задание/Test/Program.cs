@@ -104,7 +104,7 @@ namespace Test
                 }
 
                 Console.WriteLine("\nПроверьте загруженные вопросы:");
-                foreach (var section in new[] { "знать", "уметь", "владеть" })
+                foreach (var section in Question.ALL_SECTIONS)
                 {
                     int count = questionManager.Questions.Count(q => q.Section == section);
                     Console.WriteLine($"- {section}: {count} вопросов");
@@ -250,7 +250,7 @@ namespace Test
             Console.Write("\nВведите раздел (знать/уметь/владеть): ");
             string section = Console.ReadLine().ToLower();
 
-            if (!new[] { "знать", "уметь", "владеть" }.Contains(section))
+            if (!Question.ALL_SECTIONS.Contains(section))
             {
                 Console.WriteLine("Неверный раздел!");
                 return;

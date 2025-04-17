@@ -50,7 +50,7 @@ namespace Test
 
         public bool HasEnoughQuestions(int numTickets)
         {
-            var sections = new List<string> { "знать", "уметь", "владеть" };
+            var sections = new List<string>(Question.ALL_SECTIONS);
             foreach (var section in sections)
             {
                 int count = 0;
