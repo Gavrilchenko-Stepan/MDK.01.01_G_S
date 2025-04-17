@@ -15,7 +15,7 @@ namespace Test
                 return null;
             }
             List<Ticket> tickets = new List<Ticket>();
-            var usedQuestions = new List<Question>();
+            var usedQuestions = new HashSet<Question>();
             for (int i = 0; i < numTickets; i++)
             {
                 var ticket = new Ticket();

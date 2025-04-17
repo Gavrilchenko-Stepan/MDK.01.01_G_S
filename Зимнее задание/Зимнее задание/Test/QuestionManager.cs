@@ -26,7 +26,7 @@ namespace Test
         }
 
 
-        public Question GetRandomQuestion(string section, List<Question> usedQuestions)
+        public Question GetRandomQuestion(string section, HashSet<Question> usedQuestions)
         {
             var AvailableQuestions = new List<Question>();
             foreach (var question in Questions)

@@ -72,13 +72,9 @@ namespace Test
                 if (loadResult.HasErrors)
                 {
                     Console.WriteLine($"\nОбнаружены ошибки ({loadResult.Errors.Count}):");
-                    foreach (var error in loadResult.Errors.Take(5))
+                    foreach (var error in loadResult.Errors)
                     {
                         Console.WriteLine($"- {error}");
-                    }
-                    if (loadResult.Errors.Count > 5)
-                    {
-                        Console.WriteLine($"... и еще {loadResult.Errors.Count - 5} ошибок");
                     }
                 }
 
@@ -157,7 +153,7 @@ namespace Test
         private static void PreviewTickets(List<Ticket> tickets)
         {
             Console.WriteLine("\nПредпросмотр билетов:");
-            foreach (var ticket in tickets.Take(3))
+            foreach (var ticket in tickets)
             {
                 Console.WriteLine($"Билет №{tickets.IndexOf(ticket) + 1}");
                 Console.WriteLine(ticket.ToString());
