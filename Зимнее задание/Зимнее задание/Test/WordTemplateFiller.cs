@@ -16,12 +16,7 @@ namespace Test
         public static void GenerateFromTemplate(string templatePath, string outputPath, List<Ticket> tickets)
         {
             // 1. Читаем весь шаблон в память (без блокировки)
-            byte[] templateData;
-            using (var fileStream = new FileStream(templatePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                templateData = new byte[fileStream.Length];
-                fileStream.Read(templateData, 0, (int)fileStream.Length);
-            }
+            byte[] templateData = File.ReadAllBytes(templatePath);
 
             // 2. Работаем полностью в памяти
             using (var memoryStream = new MemoryStream())

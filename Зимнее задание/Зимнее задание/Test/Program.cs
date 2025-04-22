@@ -8,27 +8,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using System.Reflection;
 
 namespace Test
 {
     internal class Program
     {
         private static QuestionManager questionManager;
-        private static string currentTemplatePath;
+        private const string EMBEDDED_TEMPLATE_NAME = "Test.ШАБЛОН.docx";
         static void Main(string[] args)
         {
             Console.WriteLine("=== Генератор экзаменационных билетов ===");
 
             InitializeQuestionManager();
-            LoadTemplate();
 
             while (true)
             {
                 Console.WriteLine("\nГлавное меню:");
                 Console.WriteLine("1. Сгенерировать билеты");
                 Console.WriteLine("2. Добавить вопросы");
-                Console.WriteLine("3. Изменить шаблон");
-                Console.WriteLine("4. Выход");
+                Console.WriteLine("3. Выход");
                 Console.Write("Выберите действие: ");
 
                 switch (Console.ReadLine())
@@ -40,9 +39,6 @@ namespace Test
                         AddQuestionsMenu();
                         break;
                     case "3":
-                        LoadTemplate();
-                        break;
-                    case "4":
                         return;
                     default:
                         Console.WriteLine("Неверный ввод!");
@@ -89,11 +85,6 @@ namespace Test
 
                 if (!anyQuestionsLoaded)
                 {
-                    Console.WriteLine("\nВнимание: не загружено ни одного вопроса!");
-                    Console.WriteLine("Возможные причины:");
-                    Console.WriteLine("1. Файл пустой");
-                    Console.WriteLine("2. Все строки содержат ошибки");
-                    Console.WriteLine("3. Неверный формат файла (должен быть: 'раздел | текст вопроса')");
                     Console.Write("Попробовать другой файл? (y/n): ");
                     if (Console.ReadLine().ToLower() == "y") continue;
                     else Environment.Exit(0);
@@ -105,25 +96,12 @@ namespace Test
             }
         }
 
-        private static void LoadTemplate()
-        {
-            Console.Write("\nВведите путь к шаблону Word: ");
-            currentTemplatePath = Console.ReadLine();
-
-            if (!File.Exists(currentTemplatePath))
-            {
-                Console.WriteLine("Файл шаблона не найден!");
-                return;
-            }
-
-            Console.WriteLine("Шаблон успешно загружен.");
-        }
-
         private static void GenerateTickets()
         {
-            if (string.IsNullOrEmpty(currentTemplatePath))
+            var assembly = Assembly.GetExecutingAssembly();
+            if (!assembly.GetManifestResourceNames().Contains(EMBEDDED_TEMPLATE_NAME))
             {
-                Console.WriteLine("Сначала загрузите шаблон!");
+                Console.WriteLine("Ошибка: встроенный шаблон не найден!");
                 return;
             }
 
@@ -137,7 +115,7 @@ namespace Test
             var tickets = new TicketGenerator().GenerateTickets(questionManager, numTickets);
             if (tickets == null)
             {
-                Console.WriteLine("Недостаточно вопросов!");
+                Console.WriteLine("Недостаточно вопросов для генерации билетов!");
                 return;
             }
 
@@ -171,7 +149,6 @@ namespace Test
                 return;
             }
 
-            // Добавляем расширение, если его нет
             if (!outputPath.EndsWith(".docx", StringComparison.OrdinalIgnoreCase))
             {
                 outputPath += ".docx";
@@ -179,12 +156,30 @@ namespace Test
 
             try
             {
-                WordTemplateFiller.GenerateFromTemplate(currentTemplatePath, outputPath, tickets);
+                var assembly = Assembly.GetExecutingAssembly();
+                using (var stream = assembly.GetManifestResourceStream(EMBEDDED_TEMPLATE_NAME))
+                {
+                    if (stream == null)
+                    {
+                        Console.WriteLine("Ошибка: не удалось загрузить встроенный шаблон!");
+                        return;
+                    }
+
+                    // Сохраняем временную копию шаблона
+                    var tempPath = Path.GetTempFileName();
+                    using (var fileStream = File.Create(tempPath))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+
+                    // Генерируем документ
+                    WordTemplateFiller.GenerateFromTemplate(tempPath, outputPath, tickets);
+
+                    // Удаляем временный файл
+                    File.Delete(tempPath);
+                }
+
                 Console.WriteLine($"\nФайл успешно сохранен: {Path.GetFullPath(outputPath)}");
-                Console.WriteLine("Откройте файл и заполните:");
-                Console.WriteLine("- Название организации");
-                Console.WriteLine("- Название дисциплины");
-                Console.WriteLine("- Название специальности");
 
                 try
                 {
@@ -239,7 +234,7 @@ namespace Test
             Console.Write("\nВведите раздел (знать/уметь/владеть): ");
             string section = Console.ReadLine().ToLower();
 
-            if (!new[] { "знать", "уметь", "владеть" }.Contains(section))
+            if (!Question.ALL_SECTIONS.Contains(section))
             {
                 Console.WriteLine("Неверный раздел!");
                 return;

@@ -13,16 +13,9 @@ namespace Test
 {
     public class TheQuestionsLoader
     {
-        public struct LoadResult
+        static public ResultLoader LoadQuestions(QuestionManager questionmanager)
         {
-            public int LoadedCount { get; set; }
-            public int TotalLines { get; set; }
-            public List<string> Errors { get; set; }
-            public bool HasErrors => Errors.Count > 0;
-        }
-        static public LoadResult LoadQuestions(QuestionManager questionmanager)
-        {
-            var result = new LoadResult
+            var result = new ResultLoader
             {
                 LoadedCount = 0,
                 TotalLines = 0,
